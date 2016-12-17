@@ -21,11 +21,11 @@ public class Producer {
 		
 		kafkaProducer = new KafkaProducer<>(props);
 		System.out.println("Connected to kafka !");
-		for(int i = 0; i < 200; i++){
+		for(int i = 500; i < 600; i++){
 			String message = "message"+i;
 			//kafkaProducer.send(new ProducerRecord<String, byte[]>("test-topic", message, message.getBytes()));
 			
-			kafkaProducer.send(new ProducerRecord<String, byte[]>("test-topic", message.getBytes()));
+			kafkaProducer.send(new ProducerRecord<String, byte[]>("test-topic2", 5, message, message.getBytes()));
 			System.out.println("Puhsed to Kafka : "+message);
 		}
 		kafkaProducer.close();

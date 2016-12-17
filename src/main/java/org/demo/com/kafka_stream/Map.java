@@ -9,7 +9,6 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KeyValueMapper;
-import org.apache.kafka.streams.kstream.ValueMapper;
 
 
 public class Map {
@@ -17,7 +16,7 @@ public class Map {
 
 	public static void main(String[] args) throws Exception {
 			Properties props = new Properties();
-	        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "group15");
+	        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "group");
 	        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 	        props.put(StreamsConfig.ZOOKEEPER_CONNECT_CONFIG, "localhost:2181");
 	        props.put(StreamsConfig.KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
@@ -28,7 +27,8 @@ public class Map {
 
 	        KStreamBuilder builder = new KStreamBuilder();
 
-	        KStream<String, byte[]> source = builder.stream("test-topic");
+	        KStream<String, byte[]> source = builder.stream("test-topic2");
+	        
 	        
 	        source.map(new KeyValueMapper<String, byte[], KeyValue<String,String>>() {
 				@Override
@@ -39,24 +39,24 @@ public class Map {
 				}
 			});
 	        
-	        source.mapValues(new ValueMapper<byte[], String>() {
+	       /** source.mapValues(new ValueMapper<byte[], String>() {
 
 				@Override
 				public String apply(byte[] value) {
 					System.out.println("value: "+new String(value));
 					return  new String(value);
 				}
-			});
+			});**/
 	        		
 	        source.print();
 	        
 	        KafkaStreams streams = new KafkaStreams(builder, props);
 	        streams.start();
 
-	        // usually the stream application would be running forever,
+	      /**  // usually the stream application would be running forever,
 	        // in this example we just let it run for some time and stop since the input data is finite.
 	        Thread.sleep(60000L);
 
-	        streams.close();
+	        streams.close();**/
 	    }
 }

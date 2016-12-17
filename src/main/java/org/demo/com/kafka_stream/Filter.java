@@ -26,14 +26,20 @@ public class Filter {
 
         KStream<String, byte[]> source = builder.stream("test-topic");
         
-        KStream<String, byte[]> nullStream = source.filter(new Predicate<String, byte[]>() {
+        Predicate<String, byte[]> nullPredicate = new Predicate<String, byte[]>() {
 			@Override
 			public boolean test(String key, byte[] value) {
 				return key==null;
 			}
-		});
+		};
+        
+        KStream<String, byte[]> nullStream = source.filter(nullPredicate);
+        
+        KStream<String, byte[]> notNullStream = source.filterNot(nullPredicate);
         
         nullStream.print();
+        
+        notNullStream.print();
         
         KafkaStreams streams = new KafkaStreams(builder, props);
         streams.start();
